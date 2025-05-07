@@ -105,6 +105,8 @@ chmod 644 "${TMPFILE}"
 
 	echo SRC="$SRC"
 	echo LIB_TAG="$LIB_TAG"
+	# 导出自定义内核后缀变量，如果已设置的话
+	[[ -n $KERNEL_CUSTOM_SUFFIX ]] && echo KERNEL_CUSTOM_SUFFIX="$KERNEL_CUSTOM_SUFFIX"
 	declare -f update_src
 	#echo "update_src"
 
@@ -292,6 +294,11 @@ while [[ "${1}" == *=* ]]; do
 	eval "$parameter=\"$value\""
 
 done
+
+# 检查是否设置了自定义内核后缀
+if [[ -n $KERNEL_CUSTOM_SUFFIX ]]; then
+	display_alert "Using custom kernel suffix" "$KERNEL_CUSTOM_SUFFIX" "info"
+fi
 
 
 if [[ "${BUILD_ALL}" == "yes" || "${BUILD_ALL}" == "demo" ]]; then
